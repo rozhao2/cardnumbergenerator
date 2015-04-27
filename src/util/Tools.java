@@ -24,7 +24,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.RandomStringUtils;
 
 /**
@@ -231,18 +230,20 @@ public class Tools {
             values[i] = str.charAt(i) - '0';
         }
 
+        int n = str.length();
         int p = 10;
         int s = 0;
-        for (int j = 0; j < str.length() - 1; j++) {
-            s = p + values[j];
-            p = s % 10 * 2;
+        
+        for (int j = 0; j < n; j++) {
+            s = p % 11 + values[j];
+            p = ((s % 10) == 0 ? 10: (s % 10))* 2;
             p = p % 11;
         }
-        for (int i = 1; i < 11 - p; i++) {
-            if ((i + p) % 10 == 1) {
-                p = i;
-                break;
-            }
+        if(p < 2){
+            p = 1 - p;
+        }
+        else{
+            p = 11 - p;
         }
         return str + p;
     }
@@ -268,16 +269,16 @@ public class Tools {
             //9到10位是01,02,11,12,21,22,31,32中的一个
             prefix.append(rnd.nextInt(4));
             prefix.append(rnd.nextInt(2) + 1);
-            //6位随机数字字符串
-            prefix.append(RandomStringUtils.randomNumeric(6));
+            //5位随机数字字符串
+            prefix.append(RandomStringUtils.randomNumeric(4));
         } else {
             //外企
             //第八位是1~5中的一个
             prefix.append(rnd.nextInt(5) + 1);
             //第9位是0~2中的一个
             prefix.append(rnd.nextInt(3));
-            //7位随机数字字符串
-            prefix.append(RandomStringUtils.randomNumeric(7));
+            //6位随机数字字符串
+            prefix.append(RandomStringUtils.randomNumeric(5));
         }
 
         String str = prefix.toString();
@@ -288,22 +289,27 @@ public class Tools {
         int[] w = {3, 7, 9, 10, 5, 8, 4, 2};
         String prefix = null;
 
-        if (isNum) {
-            prefix = RandomStringUtils.randomNumeric(w.length);
-        } else {
-            prefix = RandomStringUtils.randomAlphanumeric(w.length).toUpperCase();
-        }
+        //if (isNum) {
+        prefix = RandomStringUtils.randomNumeric(w.length);
+        //} else {
+        //prefix = RandomStringUtils.randomAlphanumeric(w.length).toUpperCase();
+        //}
         int sum = 0;
         for (int i = 0; i < prefix.length(); i++) {
-            int code = prefix.charAt(i) - '0';
+            char c = prefix.charAt(i);
+            int code = 0;
+            code = c - '0';
             code = code * w[i];
             sum = sum + code;
         }
-        sum = sum % 11;
+        sum = 11 - sum % 11;
 
         if (sum == 10) {
             return prefix + "-" + "X";
-        } else {
+        } else if (sum == 11){
+            return prefix + "-" + 0;
+        }
+        else {
             return prefix + "-" + sum;
         }
     }
@@ -384,6 +390,6 @@ public class Tools {
     }
 
     public static void main(String[] args) {
-        System.out.println(getMod10_11("53250110000630"));
+        System.out.println(getMod10_11("11010800000001"));
     }
 }

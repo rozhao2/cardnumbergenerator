@@ -5,6 +5,7 @@ package bankcardgenerator;
 
 import bankcardgenerator.model.KVModel;
 import java.awt.Color;
+import java.io.UnsupportedEncodingException;
 import javax.swing.event.DocumentEvent;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
@@ -17,12 +18,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -268,7 +269,6 @@ public class BankCardGeneratorView extends FrameView {
         busCode = new javax.swing.JTextField();
         orgCode = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
-        orgCodeNum = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         plainText = new javax.swing.JTextField();
@@ -277,6 +277,16 @@ public class BankCardGeneratorView extends FrameView {
         jButton9 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         digestValue = new javax.swing.JTextField();
+        digestValue2 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        srcText = new javax.swing.JTextArea();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        targetText = new javax.swing.JTextArea();
+        jLabel8 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
@@ -307,7 +317,7 @@ public class BankCardGeneratorView extends FrameView {
             }
         });
 
-        lenthNum.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19", "16", "18", "15", "17" }));
+        lenthNum.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19", "16", "18", "15", "17", "12", "20" }));
         lenthNum.setName("lenthNum"); // NOI18N
 
         jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
@@ -423,7 +433,7 @@ public class BankCardGeneratorView extends FrameView {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bankCardNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2))
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(resourceMap.getString("jPanel1.TabConstraints.tabTitle"), jPanel1); // NOI18N
@@ -589,7 +599,7 @@ public class BankCardGeneratorView extends FrameView {
                     .addComponent(idNumbers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4)
                     .addComponent(jLabel5))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(resourceMap.getString("jPanel2.TabConstraints.tabTitle"), jPanel2); // NOI18N
@@ -630,9 +640,6 @@ public class BankCardGeneratorView extends FrameView {
             }
         });
 
-        orgCodeNum.setText(resourceMap.getString("orgCodeNum.text")); // NOI18N
-        orgCodeNum.setName("orgCodeNum"); // NOI18N
-
         jLabel6.setText(resourceMap.getString("jLabel6.text")); // NOI18N
         jLabel6.setName("jLabel6"); // NOI18N
 
@@ -650,11 +657,9 @@ public class BankCardGeneratorView extends FrameView {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton5, 0, 0, Short.MAX_VALUE)
-                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(orgCodeNum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jLabel6))
-                .addContainerGap())
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -666,11 +671,10 @@ public class BankCardGeneratorView extends FrameView {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(orgCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6)
-                    .addComponent(orgCodeNum))
+                    .addComponent(jButton6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(147, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(resourceMap.getString("jPanel3.TabConstraints.tabTitle"), jPanel3); // NOI18N
@@ -716,6 +720,13 @@ public class BankCardGeneratorView extends FrameView {
             }
         });
 
+        digestValue2.setEditable(false);
+        digestValue2.setText(resourceMap.getString("digestValue2.text")); // NOI18N
+        digestValue2.setName("digestValue2"); // NOI18N
+
+        jLabel9.setText(resourceMap.getString("jLabel9.text")); // NOI18N
+        jLabel9.setName("jLabel9"); // NOI18N
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -727,12 +738,15 @@ public class BankCardGeneratorView extends FrameView {
                         .addComponent(plainText, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton9))
+                    .addComponent(digestValue, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jButton7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton8))
-                    .addComponent(digestValue, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE))
+                        .addComponent(jButton8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel9))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
+                    .addComponent(digestValue2, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -744,16 +758,102 @@ public class BankCardGeneratorView extends FrameView {
                     .addComponent(jButton9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton8)
                     .addComponent(jButton7)
-                    .addComponent(jButton8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(digestValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(digestValue2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addGap(30, 30, 30))
         );
 
         jTabbedPane1.addTab(resourceMap.getString("jPanel5.TabConstraints.tabTitle"), jPanel5); // NOI18N
+
+        jPanel4.setName("jPanel4"); // NOI18N
+
+        jScrollPane1.setName("jScrollPane1"); // NOI18N
+
+        srcText.setColumns(20);
+        srcText.setLineWrap(true);
+        srcText.setRows(5);
+        srcText.setWrapStyleWord(true);
+        srcText.setName("srcText"); // NOI18N
+        jScrollPane1.setViewportView(srcText);
+
+        jButton10.setText(resourceMap.getString("jButton10.text")); // NOI18N
+        jButton10.setName("jButton10"); // NOI18N
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jButton11.setText(resourceMap.getString("jButton11.text")); // NOI18N
+        jButton11.setName("jButton11"); // NOI18N
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
+        jScrollPane2.setName("jScrollPane2"); // NOI18N
+
+        targetText.setColumns(20);
+        targetText.setEditable(false);
+        targetText.setLineWrap(true);
+        targetText.setRows(5);
+        targetText.setWrapStyleWord(true);
+        targetText.setName("targetText"); // NOI18N
+        targetText.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                targetTextMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(targetText);
+
+        jLabel8.setText(resourceMap.getString("jLabel8.text")); // NOI18N
+        jLabel8.setName("jLabel8"); // NOI18N
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(92, 92, 92)
+                        .addComponent(jButton10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton10)
+                    .addComponent(jButton11)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab(resourceMap.getString("jPanel4.TabConstraints.tabTitle"), jPanel4); // NOI18N
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -763,7 +863,7 @@ public class BankCardGeneratorView extends FrameView {
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
         menuBar.setName("menuBar"); // NOI18N
@@ -1168,11 +1268,9 @@ public class BankCardGeneratorView extends FrameView {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
 
-        final boolean isNum = this.orgCodeNum.isSelected();
-
         Runnable task = new Runnable(){
             public void run() {
-                String value = Tools.getOrgCode(isNum);
+                String value = Tools.getOrgCode(true);
                 orgCode.setText(value);
             }
         };
@@ -1193,10 +1291,14 @@ public class BankCardGeneratorView extends FrameView {
         String plainTextValue = this.plainText.getText();
         File file = new File(plainTextValue);
         if(file.canRead()){
-            this.digestValue.setText(Tools.getMD5(file, "MD5"));
+            String value = Tools.getMD5(file, "MD5");
+            this.digestValue.setText(value);
+            this.digestValue2.setText(value.toLowerCase());
         }
         else{
-            this.digestValue.setText(Tools.getMD5(plainTextValue, "MD5"));
+            String value = Tools.getMD5(plainTextValue, "MD5");
+            this.digestValue.setText(value);
+            this.digestValue2.setText(value.toLowerCase());
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -1205,10 +1307,14 @@ public class BankCardGeneratorView extends FrameView {
         String plainTextValue = this.plainText.getText();
         File file = new File(plainTextValue);
         if(file.canRead()){
-            this.digestValue.setText(Tools.getMD5(file, "SHA1"));
+            String value = Tools.getMD5(file, "SHA1");
+            this.digestValue.setText(value);
+            this.digestValue2.setText(value.toLowerCase());
         }
         else{
-            this.digestValue.setText(Tools.getMD5(plainTextValue, "SHA1"));
+            String value = Tools.getMD5(plainTextValue, "SHA1");
+            this.digestValue.setText(value);
+            this.digestValue2.setText(value.toLowerCase());
         }
     }//GEN-LAST:event_jButton8ActionPerformed
 
@@ -1221,6 +1327,40 @@ public class BankCardGeneratorView extends FrameView {
             Tools.saveToClipBoard(this.digestValue.getText());
         }
     }//GEN-LAST:event_digestValueMouseClicked
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        String src = this.srcText.getText();
+        String encode = null;
+        try {
+            encode = URLEncoder.encode(src, "utf-8");
+        } catch (UnsupportedEncodingException ex) {
+            encode = "exception";
+        }
+        this.targetText.setText(encode);
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        String src = this.srcText.getText();
+        String encode = null;
+        try {
+            encode = URLDecoder.decode(src, "utf-8");
+        } catch (UnsupportedEncodingException ex) {
+            encode = "exception";
+        }
+        this.targetText.setText(encode);
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void targetTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_targetTextMouseClicked
+        // TODO add your handling code here:
+        String value = this.targetText.getText();
+        if (!"".equals(value)) {
+            this.targetText.setSelectionStart(0);
+            this.targetText.setSelectionEnd(value.length());
+            Tools.saveToClipBoard(this.targetText.getText());
+        }
+    }//GEN-LAST:event_targetTextMouseClicked
 
     private void styleSelect() {
         if (this.jRadioButton1.isSelected()) {
@@ -1241,6 +1381,7 @@ public class BankCardGeneratorView extends FrameView {
     private datechooser.beans.DateChooserCombo dateChooserCombo1;
     private datechooser.beans.DateChooserDialog dateChooserDialog1;
     private javax.swing.JTextField digestValue;
+    private javax.swing.JTextField digestValue2;
     private javax.swing.JTextField fromBirthday;
     private javax.swing.JRadioButton gender;
     private javax.swing.ButtonGroup genderGroup;
@@ -1250,6 +1391,8 @@ public class BankCardGeneratorView extends FrameView {
     private javax.swing.JTextField identifyId;
     private javax.swing.JCheckBox isWithX;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1265,6 +1408,8 @@ public class BankCardGeneratorView extends FrameView {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private JDatePanelImpl fromDatePanel;
@@ -1272,9 +1417,12 @@ public class BankCardGeneratorView extends FrameView {
     private JDatePickerImpl fromDatePicker;
     private JDatePickerImpl toDatePicker;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -1283,16 +1431,17 @@ public class BankCardGeneratorView extends FrameView {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JLabel message;
     private javax.swing.JTextField orgCode;
-    private javax.swing.JCheckBox orgCodeNum;
     private javax.swing.JTextField plainText;
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JComboBox provinceComboBox;
+    private javax.swing.JTextArea srcText;
     private javax.swing.JLabel statusAnimationLabel;
     private javax.swing.JLabel statusMessageLabel;
     private javax.swing.JPanel statusPanel;
     private javax.swing.ButtonGroup styleGroup;
     private javax.swing.JFormattedTextField suffix;
     private javax.swing.JLabel suffixLength;
+    private javax.swing.JTextArea targetText;
     private javax.swing.JTextField toBirthday;
     // End of variables declaration//GEN-END:variables
     private final Timer messageTimer;
