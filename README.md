@@ -21,8 +21,8 @@
 
 
 # 上几个截图
-![](https://github.com/Cicero-Zhao/cardnumbergenerator/screenshots/1.png?raw=true)
-![](https://github.com/Cicero-Zhao/cardnumbergenerator/screenshots/2.png?raw=true)
-![](https://github.com/Cicero-Zhao/cardnumbergenerator/screenshots/3.png?raw=true)
+![](https://github.com/Cicero-Zhao/cardnumbergenerator/blob/master/screenshots/1.png?raw=true)
+![](https://github.com/Cicero-Zhao/cardnumbergenerator/blob/master/screenshots/2.png?raw=true)
+![](https://github.com/Cicero-Zhao/cardnumbergenerator/blob/master/screenshots/3.png?raw=true)
 
 
