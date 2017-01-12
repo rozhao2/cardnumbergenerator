@@ -18,3 +18,11 @@
 6. 进行urlencode和urldecode
 
 该工具仅为了方便测试人员进行测试时生成数据，没有任何其他意义~~
+
+
+# 上几个截图
+![](https://github.com/Cicero-Zhao/cardnumbergenerator/screenshots/1.png?raw=true)
+![](https://github.com/Cicero-Zhao/cardnumbergenerator/screenshots/2.png?raw=true)
+![](https://github.com/Cicero-Zhao/cardnumbergenerator/screenshots/3.png?raw=true)
+
+
